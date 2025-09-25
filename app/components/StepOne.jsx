@@ -1,31 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./Button";
 import { Input } from "./Input";
 
-export function StepOne() {
-  const [errors, setErrors] = useState({
-    FirstName: null,
-    LastName: null,
-    UserName: null,
+export function StepOne({ onclick }) {
+  const [errors, setErrors] = useState({});
+  const [addStorage, setAddStorage] = useState("");
+  useEffect(() => {
+    const localStorageAdd = addStorage.getItem("");
+    if (localStorageAdd) {
+      setAddStorage(localStorageAdd);
+    }
+  });
+
+  useEffect(() => {
+    localStorageAdd.setItem("FirstName");
   });
   const onClickButton = (event) => {
     event.preventDefault();
+
     const data = new FormData(event.target);
-    console.log(data.get("text"));
-    console.log(event.target.FirstName.value);
-    if (event.target.FirstName.value.lenght < 1) {
-      setErrors({ ...errors, FirstName: "too short" });
+    const FirstName = data.get("FirstName");
+    const LastName = data.get("LastName");
+    const UserName = data.get("UserName");
+
+    let newErrors = {};
+    let isValid = true;
+
+    if (FirstName.length < 1) {
+      newErrors.FirstName = "too short";
+      isValid = false;
     }
-    if (event.target.LastName.value.lenght < 1) {
-      setErrors({ ...errors, LastName: "too short" });
+
+    if (LastName.length < 1) {
+      newErrors.LastName = "too short";
+      isValid = false;
     }
-    console.log(event.target.LastName.value);
-    if (event.target.UserName.value.lenght < 1) {
-      setErrors({ ...errors, UserName: "too short" });
+    if (UserName.length < 1) {
+      newErrors.UserName = "too short";
+      isValid = false;
     }
-    console.log(event.target.UserName.value);
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      onclick();
+    }
   };
 
+  console.log(errors);
   return (
     <>
       <div className="w-fit h-fit p-8 rounded-[8px] bg-gray-600  ">
@@ -61,6 +83,9 @@ export function StepOne() {
               type="text"
               className="w-[87px] h-[20px] rounded-md border-2 border-solid border-black w-[366px] mt-2 mb-1 h-[48px] "
             />
+            {errors.LastName && (
+              <p className="text-red-500">{errors.LastName}</p>
+            )}
             <label htmlFor="">
               Username <span className="text-red-500">*</span>
             </label>
@@ -70,6 +95,9 @@ export function StepOne() {
               type="text"
               className="w-[87px] h-[20px] rounded-md border-2 border-solid border-black w-[366px] mt-2 mb-1 h-[48px] "
             />
+            {errors.UserName && (
+              <p className="text-red-500">{errors.UserName}</p>
+            )}
           </div>
 
           <div className="flex gap-6 mt-6">
@@ -77,7 +105,6 @@ export function StepOne() {
               type="submit"
               className="w-full h-[44px] p-2 rounded-md font-semibold bg-sky-500 hover:bg-sky-700 "
             >
-              {currentIndex + 1}
               Continue
             </button>
           </div>
