@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
-import { Button } from "./Button";
-import { Input } from "./Input";
 
 export function StepOne({ onclick }) {
   const [errors, setErrors] = useState({});
-  const [addStorage, setAddStorage] = useState("");
-  useEffect(() => {
-    const localStorageAdd = addStorage.getItem("");
-    if (localStorageAdd) {
-      setAddStorage(localStorageAdd);
-    }
-  });
+  const [addStorage, setAddStorage] = useState(
+    String(localStorage.getItem("text"))
+  );
 
   useEffect(() => {
     localStorageAdd.setItem("FirstName");

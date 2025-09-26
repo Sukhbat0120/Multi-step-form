@@ -1,5 +1,3 @@
-import { Button } from "./Button";
-import { Input } from "./Input";
 export function StepThree() {
   return (
     <>
@@ -20,12 +18,17 @@ export function StepThree() {
             className="w-[87px] h-[20px] rounded-md border-2 border-solid border-black w-[366px] mt-2 mb-1 h-[48px] "
           />
           <label htmlFor="">Profile image</label>
-          <input type="image" className="" />
+          <input type="file" />
         </div>
 
         <div className="flex gap-6 mt-6">
-          <Button>Back</Button>
-          <Button>Continue</Button>
+          <input type="button" />
+          <button
+            type="submit"
+            className="w-full h-[44px] p-2 rounded-md font-semibold bg-sky-500 hover:bg-sky-700 "
+          >
+            Continue
+          </button>
         </div>
       </div>
     </>
